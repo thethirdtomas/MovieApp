@@ -9,5 +9,6 @@
 import Foundation
 
 class MovieSearchViewModel: ObservableObject {
+    @Published var searchQuery = ""
     init () {}
 }
