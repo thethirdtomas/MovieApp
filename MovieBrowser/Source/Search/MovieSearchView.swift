@@ -10,7 +10,14 @@ import SwiftUI
 
 struct MovieSearchView: View {
     var body: some View {
-        Text("Movie Search")
+        NavigationView {
+            ZStack {
+                ProgressView()
+            }
+            .navigationTitle("Movie Search")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+        
     }
 }
 

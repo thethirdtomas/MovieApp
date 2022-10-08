@@ -12,13 +12,20 @@ import SwiftUI
 //@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.configureWithTransparentBackground()
+        coloredAppearance.backgroundColor = .systemBlue
+        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        UINavigationBar.appearance().compactAppearance = coloredAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
         UINavigationBar.appearance().barStyle = .black
-        UINavigationBar.appearance().barTintColor = .systemBlue
-        UINavigationBar.appearance().tintColor = .white
+        
         return true
     }
 }
-
 
 @main
 struct WeatherApp: App {
