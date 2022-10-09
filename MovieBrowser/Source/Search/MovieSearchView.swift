@@ -17,15 +17,67 @@ struct MovieSearchView: View {
                 VStack {
                     TextField("Search movies", text: $viewModel.searchQuery)
                         .modifier(SearchFieldModifier(text: $viewModel.searchQuery))
-                        .padding(10)
-                    Spacer()
+                        .padding(.horizontal, 8)
+                        .padding(.top, 10)
+                        .onReceive(
+                            viewModel.$searchQuery
+                               .debounce(for: .seconds(0.4), scheduler: DispatchQueue.main)
+                        ) {
+                            viewModel.searchMovies(with: $0)
+                        }
+                    
+                    List(viewModel.movies) { movie in
+                        movieRowLink(movie: movie)
+                    }
+                    .listStyle(.plain)
                 }
-                ProgressView()
+                
+                switch viewModel.loadingState {
+                case .none:
+                    VStack {
+                        Text("Movie Browser")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        Text("Search for the movies you love")
+                    }
+                case .loading:
+                    ProgressView()
+                    
+                case .empty:
+                    Text("No movie results")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                case .failed:
+                    Text("Oops. Something went wrong...")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                case .loaded:
+                    EmptyView()
+                }
             }
             .navigationTitle("Movie Search")
             .navigationBarTitleDisplayMode(.inline)
         }
-        
+    }
+    
+    func movieRowLink(movie: Movie) -> some View {
+        NavigationLink(destination: MovieDetailView(viewModel: MovieDetailViewModel(movie: movie))) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(movie.title)
+                        .font(.title)
+                        .lineLimit(2)
+                    Spacer()
+                    if let releaseDate = movie.releaseDate?.toDate() {
+                        Text(releaseDate, style: .date)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                }
+                Spacer()
+                Text(String(format: "%.1f", movie.rating))
+            }
+        }
     }
 }
 

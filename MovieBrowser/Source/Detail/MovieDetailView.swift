@@ -9,13 +9,9 @@
 import SwiftUI
 
 struct MovieDetailView: View {
+    let viewModel: MovieDetailViewModel
+    
     var body: some View {
         Text("Movie Detail")
-    }
-}
-
-struct MovieDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        MovieDetailView()
     }
 }
