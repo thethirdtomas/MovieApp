@@ -9,26 +9,31 @@
 import UIKit
 import SwiftUI
 
-//@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let coloredAppearance = UINavigationBarAppearance()
         coloredAppearance.configureWithTransparentBackground()
+        
+        let buttonAppearance = UIBarButtonItemAppearance(style: .plain)
+        buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
+                
+        coloredAppearance.buttonAppearance = buttonAppearance
         coloredAppearance.backgroundColor = .systemBlue
         coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        coloredAppearance.backButtonAppearance = buttonAppearance
+        
         
         UINavigationBar.appearance().standardAppearance = coloredAppearance
         UINavigationBar.appearance().compactAppearance = coloredAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = coloredAppearance
-        UINavigationBar.appearance().barStyle = .black
-        
+    
         return true
     }
 }
 
 @main
-struct WeatherApp: App {
+struct MovieBrowserApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {

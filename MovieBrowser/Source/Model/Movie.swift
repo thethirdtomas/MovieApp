@@ -34,22 +34,41 @@ struct MovieSearchResponse: Decodable {
 }
 
 
-extension DateFormatter {
-  static let ymd: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd"
-    formatter.calendar = Calendar(identifier: .iso8601)
-    formatter.timeZone = TimeZone(secondsFromGMT: 0)
-    formatter.locale = Locale(identifier: "en_US_POSIX")
-    return formatter
-  }()
+// MARK: - Display
+extension Movie {
+    var formattedReleaseDate1: String? {
+        self.releaseDate?.toDate()?.getFormattedDate(format: "MMMM dd, yyyy")
+    }
+    
+    var formattedReleaseDate2: String? {
+        self.releaseDate?.toDate()?.getFormattedDate(format: "M/d/yy")
+    }
+    
+    var posterURL: URL? {
+        guard let posterPath = posterPath else {
+            return nil
+        }
+        
+        return URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)") ?? nil
+    }
 }
 
 extension String {
     func toDate() -> Date? {
-        if let date = DateFormatter.ymd.date(from: self) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        if let date = formatter.date(from: self) {
             return date
         }
         return nil
     }
 }
+
+extension Date {
+    func getFormattedDate(format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: self)
+    }
+}
+

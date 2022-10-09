@@ -9,9 +9,37 @@
 import SwiftUI
 
 struct MovieDetailView: View {
-    let viewModel: MovieDetailViewModel
+    @StateObject var viewModel: MovieDetailViewModel
     
     var body: some View {
-        Text("Movie Detail")
+        VStack {
+            VStack(spacing: 12) {
+                Text(viewModel.movie.title)
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding(.top)
+                
+                if let formattedReleaseDate = viewModel.movie.formattedReleaseDate2 {
+                    Text("Release Date: \(formattedReleaseDate)")
+                        .foregroundColor(.gray)
+                }
+            }
+            .padding()
+            
+            HStack(alignment: .top, spacing: 15) {
+                AsyncImage(url: viewModel.movie.posterURL) { image in
+                    image
+                      .resizable()
+                      .aspectRatio(contentMode: .fit)
+                } placeholder: {
+                    Image("placeholder")
+                }
+                
+                Text(viewModel.movie.overview)
+            }
+            
+            Spacer()
+        }
+        .padding()
     }
 }

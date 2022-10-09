@@ -57,6 +57,11 @@ struct MovieSearchView: View {
             }
             .navigationTitle("Movie Search")
             .navigationBarTitleDisplayMode(.inline)
+            .onDisappear {
+                if let searchTask = viewModel.movieSearchTask {
+                    searchTask.cancel()
+                }
+            }
         }
     }
     
@@ -68,8 +73,8 @@ struct MovieSearchView: View {
                         .font(.title)
                         .lineLimit(2)
                     Spacer()
-                    if let releaseDate = movie.releaseDate?.toDate() {
-                        Text(releaseDate, style: .date)
+                    if let releaseDate = movie.formattedReleaseDate1 {
+                        Text(releaseDate)
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }
